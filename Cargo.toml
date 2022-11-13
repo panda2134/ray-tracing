@@ -1,0 +1,17 @@
+[package]
+name = "ray-tracing"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+russimp = { version = "1.0.4", features = ["prebuilt"] }
+nalgebra-glm = "0.17.0"
+anyhow = "1.0.66"
+image = "0.24.5"
+thiserror = "1.0.37"
+bvh = "0.7.1"
+rayon = "1.5.3"
+itertools = "0.10.5"
+rand = "0.8.5"
