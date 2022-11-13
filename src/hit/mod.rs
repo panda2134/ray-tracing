@@ -14,6 +14,7 @@ pub use noop_broadphase::NoOpBroadPhase;
 pub use ray::Ray;
 pub use broadphase_shape::BroadPhaseShape;
 
+#[derive(Copy, Clone)]
 pub struct HitRecord {
     pub toi: f64,
     pub point: glm::TVec3<f64>,

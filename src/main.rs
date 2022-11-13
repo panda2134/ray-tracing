@@ -9,11 +9,12 @@ mod camera;
 mod hit;
 mod shape;
 mod utils;
-mod trace;
+mod tracer;
 
 use nalgebra_glm as glm;
 use rayon::prelude::*;
 use shape::{Sphere, Shape};
+use tracer::{TracingHelper, Light};
 
 fn main() -> anyhow::Result<()> {
     let screen = camera::Screen::default();
@@ -28,11 +29,22 @@ fn main() -> anyhow::Result<()> {
     };
     let mut broad_phase = hit::BVHBroadPhase::default();
     let world: Vec<Arc<dyn Shape>> = vec![
-        Arc::new(Sphere::new(glm::DVec3::new(0.0, 0.0, -1.0), 0.5)),
-        Arc::new(Sphere::new(glm::DVec3::new(0.0, -100.5, -1.0), 100.0))
+        Arc::new(Sphere{ center: glm::DVec3::new(0.0, 0.0, -1005.0), radius: 1000.0, color: DVec3::new(0.0, 0.0, 0.0), reflection_attenuation: 0.9, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        Arc::new(Sphere{ center: glm::DVec3::new(0.0, 0.0, 1005.0), radius: 1000.0, color: DVec3::new(0.6, 0.6, 1.0), reflection_attenuation: 0.0, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        Arc::new(Sphere{ center: glm::DVec3::new(0.0, -1003.0, 0.0), radius: 1000.0, color: DVec3::new(0.0, 0.0, 0.0), reflection_attenuation: 0.9, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        Arc::new(Sphere{ center: glm::DVec3::new(0.0, 1003.0, 0.0), radius: 1000.0, color: DVec3::new(0.0, 0.0, 0.0), reflection_attenuation: 0.9, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        Arc::new(Sphere{ center: glm::DVec3::new(-1003.0, 0.0, 0.0), radius: 1000.0, color: DVec3::new(1.0, 0.0, 0.0), reflection_attenuation: 0.1, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        Arc::new(Sphere{ center: glm::DVec3::new(1003.0, 0.0, 0.0), radius: 1000.0, color: DVec3::new(0.0, 1.0, 0.0), reflection_attenuation: 0.1, refraction_attenuation: 0.0, refraction_index: 1.36 }),
+        // Arc::new(Sphere{ center: glm::DVec3::new(0.0, 0.0, -1.0), radius: 1.0, color: DVec3::new(1.0, 1.0, 1.0), 
+        //     reflection_attenuation: 0.1, refraction_attenuation: 0.9, refraction_index: 1.36 }),
     ];
     let mut obj: Vec<BroadPhaseShape> = world.iter().map(|s| BroadPhaseShape::new(s.clone())).collect();
     broad_phase.build(&mut obj);
+    let light = Light {
+        position: DVec3::new(1.5, 0.0, 1.5),
+        color: DVec3::new(1.0, 1.0, 1.0),
+    };
+    let tracing_helper = TracingHelper::new(&obj, &broad_phase, light, 3);
     let samples_per_pixel = 100;
     
     let res: Vec<(u32, u32, glm::DVec3)> = (0..screen.width)
@@ -50,19 +62,7 @@ fn main() -> anyhow::Result<()> {
                     camera.left_bottom_vec() + u * camera.horizontal_vec() + v * camera.vertical_vec();
 
                 let ray = hit::Ray { origin: camera.origin, direction: ray_dir };
-                let filtered = broad_phase.trace(&obj, &ray);
-                
-                let t = 0.5 * (ray_dir.normalize().y + 1.0);
-                let bg =
-                    (1.0 - t) * glm::DVec3::new(1.0, 1.0, 1.0) + t * glm::DVec3::new(0.5, 0.7, 1.0);
-                let mut records: Vec<HitRecord> = vec![];
-                for x in filtered {
-                    if let Some(h) = x.shape.hit(&ray) {
-                        records.push(h);
-                    }
-                }
-                records.sort_by(|x, y| x.toi.partial_cmp(&y.toi).unwrap());
-                color += records.first().map_or(bg, |x| utils::vec_to_color(x.normal));
+                color += tracing_helper.start_trace(&ray);
             }
             (x, y, color / (samples_per_pixel as f64))
         })

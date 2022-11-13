@@ -1,18 +1,17 @@
 use bvh::{aabb::Bounded};
+use glm::DVec3;
 use nalgebra_glm as glm;
-use crate::hit::HitRecord;
+use crate::{hit::HitRecord, utils};
 use super::Shape;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct Sphere {
     pub center: glm::DVec3,
-    pub radius: f64
-}
-
-impl Sphere {
-    pub fn new(center: glm::DVec3, radius: f64) -> Self {
-        Self { center, radius }
-    }
+    pub radius: f64,
+    pub color: glm::DVec3,
+    pub reflection_attenuation: f64,
+    pub refraction_attenuation: f64,
+    pub refraction_index: f64,
 }
 
 impl Bounded for Sphere {
@@ -66,5 +65,18 @@ impl Shape for Sphere {
                 })
             }
         }
+    }
+
+    fn color(&self, hit: &HitRecord) -> DVec3 {
+        self.color
+    }
+    fn reflection_attenuation(&self, hit: &HitRecord) -> f64 {
+        self.reflection_attenuation
+    }
+    fn refraction_attenuation(&self, hit: &HitRecord) -> f64 {
+        self.refraction_attenuation
+    }
+    fn refraction_index(&self, hit: &HitRecord) -> f64 { // TODO: relation with light color
+        self.refraction_index
     }
 }
