@@ -3,7 +3,7 @@ use std::sync::Arc;
 use glm::DVec3;
 use hit::{BroadPhase, BroadPhaseShape, HitRecord};
 use itertools::Itertools;
-use material::{Diffuse, Light, Wood};
+use material::{Diffuse, Light, Wood, Metal};
 use rand::prelude::*;
 
 mod camera;
@@ -20,7 +20,7 @@ use tracer::{TracingHelper};
 use utils::{BLACK, BLUE, CYAN, GREEN, RED, WHITE};
 
 fn main() -> anyhow::Result<()> {
-    let screen = camera::Screen::default();
+    let screen = camera::Screen::new(1920, 1080);
     let mut output = image::Rgb32FImage::new(screen.width, screen.height);
     let camera = camera::Camera {
         screen,
@@ -42,9 +42,14 @@ fn main() -> anyhow::Result<()> {
             ))
         }),
         Arc::new(Sphere {
-            center: glm::DVec3::new(0.0, 0.0, -2.0),
+            center: glm::DVec3::new(0.5, 0.0, -2.0),
             radius: 0.5,
             material: Arc::new(Diffuse::new(DVec3::new(0.25, 0.35, 0.5)))
+        }),
+        Arc::new(Sphere {
+            center: glm::DVec3::new(-0.5, 0.0, -2.0),
+            radius: 0.5,
+            material: Arc::new(Metal::new(0.8 * WHITE, 0.2))
         }),
         Arc::new(Sphere {
             center: glm::DVec3::new(0.0, 100.0 + 40.0, 0.0),

@@ -4,6 +4,15 @@ pub struct Screen {
     pub height: u32,
 }
 
+impl Screen {
+    pub fn new(width: u32, height: u32) -> Self {
+        Self {
+            width,
+            height,
+        }
+    }
+}
+
 impl Default for Screen {
     fn default() -> Self {
         Self {

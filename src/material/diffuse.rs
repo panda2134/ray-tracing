@@ -1,4 +1,5 @@
 use nalgebra_glm::DVec3;
+use rand_distr::num_traits::Zero;
 
 use crate::{hit::{Ray, HitRecord}, utils::random_in_unit_sphere};
 use nalgebra_glm as glm;
@@ -16,7 +17,11 @@ impl Diffuse {
 
 impl Material for Diffuse {
     fn scatter(&self, _: &crate::hit::Ray, hit: &crate::hit::HitRecord) -> Vec<(DVec3, crate::hit::Ray)> {
-        let ray_scattered = Ray::new(hit.point, hit.normal + random_in_unit_sphere().normalize());
+        let mut direction = hit.normal + random_in_unit_sphere().normalize();
+        if direction.norm_squared() < 1e-8 {
+            direction = hit.normal;
+        }
+        let ray_scattered = Ray::new(hit.point, direction);
         vec![
             (self.color_diffuse, ray_scattered)
         ]
