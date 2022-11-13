@@ -1,3 +1,5 @@
 mod color;
+mod vec;
 
-pub use color::vec_to_color;
+pub use color::*;
+pub use vec::*;

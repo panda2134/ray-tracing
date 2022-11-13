@@ -1,6 +1,8 @@
 mod sphere;
 
-use crate::hit::{HitRecord, Ray};
+use std::sync::Arc;
+
+use crate::{hit::{HitRecord, Ray}, material::Material};
 use bvh::aabb::Bounded;
 
 use nalgebra_glm::DVec3;
@@ -19,8 +21,5 @@ pub trait Shape: Bounded + Send + Sync {
         )
     }
 
-    fn color(&self, hit: &HitRecord) -> DVec3;
-    fn reflection_attenuation(&self, hit: &HitRecord) -> f64;
-    fn refraction_attenuation(&self, hit: &HitRecord) -> f64;
-    fn refraction_index(&self, hit: &HitRecord) -> f64;
+    fn material(&self, hit: &HitRecord) -> Arc<dyn Material>;
 }

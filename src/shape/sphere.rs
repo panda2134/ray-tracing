@@ -1,17 +1,16 @@
+use std::sync::Arc;
+
 use bvh::{aabb::Bounded};
 use glm::DVec3;
 use nalgebra_glm as glm;
-use crate::{hit::HitRecord, utils};
+use crate::{hit::HitRecord, utils, material::Material};
 use super::Shape;
 
-#[derive(Debug, Copy, Clone, Default)]
+#[derive(Clone)]
 pub struct Sphere {
     pub center: glm::DVec3,
     pub radius: f64,
-    pub color: glm::DVec3,
-    pub reflection_attenuation: f64,
-    pub refraction_attenuation: f64,
-    pub refraction_index: f64,
+    pub material: Arc<dyn Material>
 }
 
 impl Bounded for Sphere {
@@ -67,16 +66,7 @@ impl Shape for Sphere {
         }
     }
 
-    fn color(&self, hit: &HitRecord) -> DVec3 {
-        self.color
-    }
-    fn reflection_attenuation(&self, hit: &HitRecord) -> f64 {
-        self.reflection_attenuation
-    }
-    fn refraction_attenuation(&self, hit: &HitRecord) -> f64 {
-        self.refraction_attenuation
-    }
-    fn refraction_index(&self, hit: &HitRecord) -> f64 { // TODO: relation with light color
-        self.refraction_index
+    fn material(&self, _hit: &HitRecord) -> Arc<dyn Material> {
+        self.material.clone()
     }
 }

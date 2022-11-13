@@ -8,6 +8,12 @@ pub struct Ray {
     pub direction: DVec3
 }
 
+impl Ray {
+    pub fn new(origin: DVec3, direction: DVec3) -> Self {
+        Self { origin, direction: direction.normalize() }
+    }
+}
+
 impl From<&bvh::ray::Ray> for Ray {
     fn from(ray: &bvh::ray::Ray) -> Self {
         Self { origin: DVec3::new(ray.origin.x as f64, ray.origin.y as f64, ray.origin.z as f64),
