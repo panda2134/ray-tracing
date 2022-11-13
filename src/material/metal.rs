@@ -25,7 +25,7 @@ impl Material for Metal {
         if ray.direction.dot(&hit.normal) > 0.0 {
             vec![]
         } else {
-            let reflected = glm::reflect_vec(&ray.direction, &hit.normal)
+            let reflected = glm::reflect_vec(&ray.direction, &hit.normal).normalize()
                 + self.fuzziness * utils::random_in_unit_sphere();
             let ray_new = Ray::new(hit.point, reflected);
             vec![(self.color, ray_new)]
