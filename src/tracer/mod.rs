@@ -1,4 +1,4 @@
-use std::sync::Arc;
+
 
 use itertools::Itertools;
 use nalgebra_glm::DVec3;
@@ -47,7 +47,7 @@ impl<'a> TracingHelper<'a> {
                 let sample_count = 1;
                 let mut res = DVec3::zeros();
                 
-                for i in 0..sample_count {
+                for _i in 0..sample_count {
                     let rays_scattered = material.scatter(&ray, &hit);
                     let sample_res = rays_scattered.into_iter().map(|(c, r)| 
                         c.component_mul(&self.trace(&r, depth - 1))

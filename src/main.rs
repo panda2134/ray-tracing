@@ -1,11 +1,11 @@
-use std::{sync::Arc, collections::HashMap, f64::consts::PI};
+use std::{sync::Arc, collections::HashMap};
 
-use glm::{DVec3, Vec3};
+use glm::{DVec3};
 use hit::{BroadPhase, BroadPhaseShape, BVHBroadPhase};
 use itertools::Itertools;
-use material::{Diffuse, Light, Wood, Metal, Dielectric, Material};
+use material::{Wood, Metal, Dielectric, Material};
 use rand::prelude::*;
-use kdam::{tqdm, BarExt};
+use kdam::{tqdm};
 
 mod camera;
 mod hit;
@@ -16,9 +16,9 @@ mod material;
 
 use nalgebra_glm as glm;
 use rayon::prelude::*;
-use shape::{Shape, Sphere, Triangle, load_triangle, draw_rect, draw_cube};
+use shape::{Shape, Sphere, load_triangle, draw_cube};
 use tracer::{TracingHelper};
-use utils::{WHITE, GREEN, RED, BLUE, cornell_box};
+use utils::{WHITE, cornell_box};
 
 fn main() -> anyhow::Result<()> {
     let screen = camera::Screen::new(400, 300);

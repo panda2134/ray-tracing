@@ -13,9 +13,9 @@ pub fn cornell_box() -> Vec<Arc<dyn Shape>> {
     let mut world: Vec<Arc<dyn Shape>> = vec![];
     let green: Arc<dyn Material> = Arc::new(Diffuse::new(GREEN));
     let red: Arc<dyn Material> = Arc::new(Diffuse::new(RED));
-    let blue: Arc<dyn Material> = Arc::new(Diffuse::new(BLUE));
+    let _blue: Arc<dyn Material> = Arc::new(Diffuse::new(BLUE));
     let white: Arc<dyn Material> = Arc::new(Diffuse::new(WHITE));
-    let glass: Arc<dyn Material> = Arc::new(Dielectric::new(1.6));
+    let _glass: Arc<dyn Material> = Arc::new(Dielectric::new(1.6));
     let wood: Arc<dyn Material> = Arc::new(Wood::new(
         DVec3::new(-2.0, -1.0, -2.0),
         DVec3::new(1.0, 0.0, 0.0),

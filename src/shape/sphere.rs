@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
 use bvh::{aabb::Bounded};
-use glm::DVec3;
+
 use nalgebra_glm as glm;
 use serde::{Deserialize, Serialize};
-use crate::{hit::HitRecord, utils, material::Material};
+use crate::{hit::HitRecord, material::Material};
 use super::Shape;
 
 #[derive(Clone, Serialize, Deserialize)]

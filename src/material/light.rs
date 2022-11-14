@@ -22,7 +22,7 @@ impl Material for Light {
     fn scatter(&self, _: &crate::hit::Ray, _hit: &crate::hit::HitRecord) -> Vec<(DVec3, crate::hit::Ray)> {
         vec![]
     }
-    fn emit(&self, ray: &Ray, hit: &HitRecord) -> glm::DVec3 {
+    fn emit(&self, _ray: &Ray, _hit: &HitRecord) -> glm::DVec3 {
         self.radiance * self.color_light
     }
 }

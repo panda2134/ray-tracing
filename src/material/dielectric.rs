@@ -40,7 +40,7 @@ impl Material for Dielectric {
         vec![(attenuation, ray)]
     }
 
-    fn emit(&self, ray: &crate::hit::Ray, hit: &crate::hit::HitRecord) -> nalgebra_glm::DVec3 {
+    fn emit(&self, _ray: &crate::hit::Ray, _hit: &crate::hit::HitRecord) -> nalgebra_glm::DVec3 {
         DVec3::zeros()
     }
 }

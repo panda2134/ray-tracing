@@ -1,7 +1,7 @@
 use std::{io::BufReader, sync::Arc};
 
 use bvh::aabb::Bounded;
-use glm::{DMat3, DVec4, DMat4};
+use glm::{DVec4, DMat4};
 use itertools::Itertools;
 use nalgebra_glm::DVec3;
 use obj::{Obj, Vertex};
