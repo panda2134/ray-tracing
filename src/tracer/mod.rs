@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use itertools::Itertools;
 use nalgebra_glm::DVec3;
 
@@ -6,18 +8,18 @@ use crate::utils::*;
 
 use nalgebra_glm as glm;
 
-pub struct TracingHelper<'a, T: BroadPhase> {
+pub struct TracingHelper<'a> {
     obj: &'a Vec<BroadPhaseShape>,
-    broad_phase: &'a T,
+    broad_phase: Box<dyn BroadPhase>,
     depth_limit: usize,
 }
 
-impl<'a, T: BroadPhase> TracingHelper<'a, T> {
+impl<'a> TracingHelper<'a> {
     pub fn new(
         obj: &'a Vec<BroadPhaseShape>,
-        broad_phase: &'a T,
+        broad_phase: Box<dyn BroadPhase>,
         depth_limit: usize,
-    ) -> TracingHelper<'a, T> {
+    ) -> TracingHelper<'a> {
         TracingHelper {
             obj,
             broad_phase,
@@ -42,20 +44,26 @@ impl<'a, T: BroadPhase> TracingHelper<'a, T> {
                 let (hit, bf_shape) = hit_info;
                 let material = bf_shape.shape.material(&hit);
 
-                let rays_scattered = material.scatter(&ray, &hit);
-
-                let res = rays_scattered.into_iter().map(|(c, r)| 
-                    c.component_mul(&self.trace(&r, depth - 1))
-                ).sum::<DVec3>() + material.emit(&ray, &hit);
+                let sample_count = 1;
+                let mut res = DVec3::zeros();
+                
+                for i in 0..sample_count {
+                    let rays_scattered = material.scatter(&ray, &hit);
+                    let sample_res = rays_scattered.into_iter().map(|(c, r)| 
+                        c.component_mul(&self.trace(&r, depth - 1))
+                    ).sum::<DVec3>() + material.emit(&ray, &hit);
+                    res += sample_res / (sample_count as f64);
+                }
 
                 res
-            }
-            None => BLACK,
-            // None => {
-            //     let mut t = 0.5 * (ray.direction.normalize().y + 1.0);
-            //     if ! t.is_finite() {t = 0.0;}
-            //     glm::lerp(&WHITE, &DVec3::new(0.5, 0.7, 1.0), t)
-            // },
+            },
+            // TODO: BLACK
+            // None => BLACK
+            None => {
+                let mut t = 0.5 * (ray.direction.normalize().y + 1.0);
+                if ! t.is_finite() {t = 0.0;}
+                glm::lerp(&WHITE, &DVec3::new(0.5, 0.7, 1.0), t)
+            },
         }
     }
 

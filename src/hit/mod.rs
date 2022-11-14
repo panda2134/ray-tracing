@@ -21,7 +21,7 @@ pub struct HitRecord {
     pub normal: glm::TVec3<f64>,
 }
 
-pub trait BroadPhase: Default {
+pub trait BroadPhase: Sync + Send {
     /// return shapes that can *possibly* intersect with the ray.
     fn trace<'a>(&'a self, shapes: &'a [BroadPhaseShape], ray: &ray::Ray) -> Vec<&'a BroadPhaseShape>;
 

@@ -1,13 +1,15 @@
 mod sphere;
+mod triangle;
 
 use std::sync::Arc;
 
 use crate::{hit::{HitRecord, Ray}, material::Material};
 use bvh::aabb::Bounded;
 
-use nalgebra_glm::DVec3;
 pub use sphere::Sphere;
+pub use triangle::*;
 
+#[typetag::serde(tag = "type")]
 pub trait Shape: Bounded + Send + Sync {
     fn hit(&self, ray: &Ray) -> Option<HitRecord>;
 

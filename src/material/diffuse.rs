@@ -1,10 +1,11 @@
 use nalgebra_glm::DVec3;
-use rand_distr::num_traits::Zero;
+use serde::{Serialize, Deserialize};
 
 use crate::{hit::{Ray, HitRecord}, utils::random_in_unit_sphere};
 use nalgebra_glm as glm;
 use super::Material;
 
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Diffuse {
     pub color_diffuse: DVec3,
 }
@@ -15,6 +16,7 @@ impl Diffuse {
     }
 }
 
+#[typetag::serde]
 impl Material for Diffuse {
     fn scatter(&self, _: &crate::hit::Ray, hit: &crate::hit::HitRecord) -> Vec<(DVec3, crate::hit::Ray)> {
         let mut direction = hit.normal + random_in_unit_sphere().normalize();

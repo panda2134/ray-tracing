@@ -1,10 +1,12 @@
 use nalgebra_glm::DVec3;
+use serde::{Serialize, Deserialize};
 
 use crate::{hit::Ray, utils};
 
 use super::Material;
 use nalgebra_glm as glm;
 
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Metal {
     pub color: DVec3,
     pub fuzziness: f64,
@@ -16,6 +18,7 @@ impl Metal {
     }
 }
 
+#[typetag::serde]
 impl Material for Metal {
     fn scatter(
         &self,

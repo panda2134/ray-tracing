@@ -1,5 +1,6 @@
 mod screen;
 
+use glm::DVec3;
 use nalgebra_glm as glm;
 pub use screen::Screen;
 
@@ -28,7 +29,7 @@ impl Default for Camera {
 
 impl Camera {
     fn rotation_matrix(&self) -> glm::DMat4 {
-        glm::rotate_x(&glm::rotate_y(&glm::identity(), -self.pitch), self.yaw)
+        glm::rotation(-self.pitch, &DVec3::new(0.0, 1.0, 0.0)) * glm::rotation(self.yaw, &DVec3::new(1.0, 0.0, 0.0))
     }
 
     pub fn viewport_width(&self) -> f64 {

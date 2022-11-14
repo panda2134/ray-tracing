@@ -3,10 +3,11 @@ use std::sync::Arc;
 use bvh::{aabb::Bounded};
 use glm::DVec3;
 use nalgebra_glm as glm;
+use serde::{Deserialize, Serialize};
 use crate::{hit::HitRecord, utils, material::Material};
 use super::Shape;
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Sphere {
     pub center: glm::DVec3,
     pub radius: f64,
@@ -25,6 +26,7 @@ impl Bounded for Sphere {
     }
 }
 
+#[typetag::serde]
 impl Shape for Sphere {
     fn hit(&self, ray: &crate::hit::Ray) -> Option<crate::hit::HitRecord> {
         /*

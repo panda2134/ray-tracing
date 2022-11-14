@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 russimp = { version = "1.0.4", features = ["prebuilt"] }
-nalgebra-glm = "0.17.0"
+nalgebra-glm = { version = "0.17.0", features = ["serde-serialize"] }
 anyhow = "1.0.66"
 image = "0.24.5"
 thiserror = "1.0.37"
@@ -16,3 +16,9 @@ rayon = "1.5.3"
 itertools = "0.10.5"
 rand = "0.8.5"
 rand_distr = "0.4.3"
+kdam = "0.2.7"
+obj-rs = "0.7.0"
+serde = { version = "1.0.147", features = ["rc"]}
+serde_json = "1.0.87"
+typetag = "0.2.3"
+cached = "0.40.0"
