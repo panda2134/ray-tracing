@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 use cached::proc_macro::cached;
-use image::GenericImageView;
 use nalgebra_glm::DVec3;
 use serde::{Serialize, Deserialize};
 
