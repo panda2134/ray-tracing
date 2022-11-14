@@ -11,8 +11,8 @@ use super::Material;
 
 #[derive(Hash, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Serialize, Deserialize)]
 pub enum WoodType {
-    WOOD,
-    RED_WOOD
+    Wood,
+    RedWood
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -26,12 +26,12 @@ pub struct Wood {
 #[cached]
 fn wood_texture(wood_type: WoodType) -> Arc<image::Rgb32FImage> {
     match wood_type {
-        WoodType::WOOD => {
+        WoodType::Wood => {
             let texture_bytes = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/wood.jpg"));
             let texture = image::load_from_memory(texture_bytes).unwrap();
             Arc::new(texture.into_rgb32f())
         }
-        WoodType::RED_WOOD => {
+        WoodType::RedWood => {
             let texture_bytes = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/red_wood.jpg"));
             let texture = image::load_from_memory(texture_bytes).unwrap();
             Arc::new(texture.into_rgb32f())

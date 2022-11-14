@@ -20,7 +20,7 @@ pub fn cornell_box() -> Vec<Arc<dyn Shape>> {
         DVec3::new(-2.0, -1.0, -2.0),
         DVec3::new(1.0, 0.0, 0.0),
         DVec3::new(0.0, 0.0, 1.0),
-        crate::material::WoodType::WOOD
+        crate::material::WoodType::Wood
     ));
 
     world.extend(

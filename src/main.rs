@@ -34,7 +34,7 @@ fn main() -> anyhow::Result<()> {
     let mut world: Vec<Arc<dyn Shape>> = vec![];
 
     let wood: Arc<dyn Material> = Arc::new(
-        Wood::new(DVec3::zeros(), DVec3::new(0.0, 0.0, 1.0), DVec3::new(0.0, 1.0, 0.0), material::WoodType::RED_WOOD)
+        Wood::new(DVec3::zeros(), DVec3::new(0.0, 0.0, 1.0), DVec3::new(0.0, 1.0, 0.0), material::WoodType::RedWood)
     );
     let metal: Arc<dyn Material> = Arc::new(Metal::new(0.8 * WHITE, 0.05));
     let glass: Arc<dyn Material> = Arc::new(Dielectric::new(1.6));
