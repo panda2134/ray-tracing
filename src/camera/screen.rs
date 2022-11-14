@@ -1,4 +1,6 @@
-#[derive(Debug, Copy, Clone)]
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Screen {
     pub width: u32,
     pub height: u32,

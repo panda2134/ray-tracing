@@ -3,8 +3,9 @@ mod screen;
 use glm::DVec3;
 use nalgebra_glm as glm;
 pub use screen::Screen;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Camera {
     pub screen: screen::Screen,
     pub viewport_height: f64,
