@@ -6,7 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-russimp = { version = "1.0.4", features = ["prebuilt"] }
 nalgebra-glm = { version = "0.17.0", features = ["serde-serialize"] }
 anyhow = "1.0.66"
 image = "0.24.5"
