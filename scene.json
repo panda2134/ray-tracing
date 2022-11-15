@@ -8,9 +8,9 @@
     "origin": [
       0.0,
       0.0,
-      0.0
+      0.4
     ],
-    "focal_len": 1.0,
+    "focal_len": 2.0,
     "pitch": 0.0,
     "yaw": 0.0
   },

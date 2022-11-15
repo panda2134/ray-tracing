@@ -94,11 +94,9 @@ impl Shape for Triangle {
         if k1 + k2 > 1.0 {
             return None;
         }
-        // dbg!(k1);
-        // dbg!(k2);
         let point = ray.origin + toi * ray.direction;
         let normal = self.v1().cross(&self.v2()).normalize();
-        // dbg!(toi);
+        
         Some(HitRecord { toi, point, normal })
     }
 
